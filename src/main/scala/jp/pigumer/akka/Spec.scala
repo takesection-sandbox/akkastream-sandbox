@@ -27,7 +27,7 @@ trait Mul {
 
 object Spec extends App with Mul {
 
-  (1 to 10).flatMap(i ⇒ Stream(i, i, i)).foreach { i ⇒
+  (1 to 10).flatMap(i ⇒ Stream.fill(3)(i)).foreach { i ⇒
     mul(i)
   }
 
