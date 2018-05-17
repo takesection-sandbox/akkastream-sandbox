@@ -2,15 +2,6 @@ package jp.pigumer.akka
 
 import java.util.logging.Logger
 
-import akka.actor.{Actor, ActorSystem, Props}
-import akka.event.{Logging, LoggingAdapter}
-import akka.pattern.ask
-import akka.stream.ActorMaterializer
-import akka.util.Timeout
-
-import scala.concurrent.{Await, ExecutionContextExecutor, Future}
-import scala.concurrent.duration._
-
 trait Mul {
 
   val logger = Logger.getLogger("Spec")
