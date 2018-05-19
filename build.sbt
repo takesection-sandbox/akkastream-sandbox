@@ -10,7 +10,6 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       akkaHttp,
       akkaStream,
-      dynamodb
     ),
     dockerBaseImage := "java:8-jdk-alpine",
     daemonUser in Docker := "root",
