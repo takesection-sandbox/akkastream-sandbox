@@ -19,11 +19,11 @@ object PaginatorSpec extends App {
 
   val list = Stream.from(1)
 
-  val page = 1L
+  val page = 2L
   val size = 3
 
   val result = Source(list)
-    .sliding(size, size)
+    .grouped(size)
     .zipWithIndex
     .dropWhile {
       case (_, index) ⇒
@@ -34,7 +34,7 @@ object PaginatorSpec extends App {
         index != page
     }
     .map(_._1)
-    .toMat(Sink.seq)(Keep.right)
+    .toMat(Sink.head)(Keep.right)
     .run
 
   result.onComplete {
