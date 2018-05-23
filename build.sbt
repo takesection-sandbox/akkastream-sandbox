@@ -6,10 +6,11 @@ lazy val root = (project in file("."))
   .settings(
     name := "sandbox",
     version := "0.0.1-SNAPSHOT",
-    scalaVersion := "2.12.4",
+    scalaVersion := "2.12.6",
     libraryDependencies ++= Seq(
       akkaHttp,
       akkaStream,
+      specs2
     ),
     dockerBaseImage := "java:8-jdk-alpine",
     daemonUser in Docker := "root",
