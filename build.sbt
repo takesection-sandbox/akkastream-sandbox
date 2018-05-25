@@ -10,6 +10,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       akkaHttp,
       akkaStream,
+      akkaStreamTestKit,
       specs2
     ),
     dockerBaseImage := "java:8-jdk-alpine",
