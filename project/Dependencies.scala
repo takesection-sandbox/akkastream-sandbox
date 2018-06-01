@@ -8,4 +8,7 @@ object Dependencies {
   lazy val logback = "ch.qos.logback" % "logback-classic" % "1.2.3"
 
   lazy val specs2 = "org.specs2" %% "specs2-core" % "4.2.0" % Test
+
+  lazy val dynamodb = "com.amazonaws" % "aws-java-sdk-dynamodb" % "1.11.338"
+
 }
