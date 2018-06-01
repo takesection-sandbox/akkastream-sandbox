@@ -10,17 +10,6 @@ import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.util.{Failure, Success}
 
-class SlowActor extends Actor {
-  override def receive = {
-    case i: Int ⇒
-      implicit val executionContext = context.system.dispatcher
-      val originalSender = sender
-      Future {
-        Thread.sleep(i * 500)
-        originalSender ! i
-      }
-  }
-}
 
 object CompletionTimeoutSpec extends App {
 
