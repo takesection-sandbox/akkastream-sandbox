@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  Table:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "HashKey"
+          AttributeType: "S"
+        - AttributeName: "RangeKey"
+          AttributeType: "S"
+        - AttributeName: "RangeKey2"
+          AttributeType: "S"
+      GlobalSecondaryIndexes:
+        - IndexName: String
+          KeySchema:
+            - AttributeName: "HashKey"
+              KeyType: "HASH"
+            - AttributeName: "RangeKey2"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "KEYS_ONLY"
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+      KeySchema:
+        - AttributeName: "HashKey"
+          KeyType: "HASH"
+        - AttributeName: "RangeKey"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      TableName: Test1

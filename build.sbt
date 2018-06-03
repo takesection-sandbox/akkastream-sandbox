@@ -35,7 +35,11 @@ lazy val sandbox2 = (project in file("sandbox2"))
   .settings(
     name := "sandbox2",
     libraryDependencies ++= Seq(
+      akkaStream,
+      akkaStreamTestKit,
+
       dynamodb,
+      cloudformation,
       specs2
     )
   )
