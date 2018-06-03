@@ -17,7 +17,7 @@ trait StackBase {
         Stream.continually(is.read).takeWhile(_ != -1).map(_.toByte).toArray
       )
     } finally {
-      is.close
+      is.close()
     }
   }
 }
