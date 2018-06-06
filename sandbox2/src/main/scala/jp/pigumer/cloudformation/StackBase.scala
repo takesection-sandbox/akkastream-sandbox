@@ -1,4 +1,4 @@
-package jp.pigumer.dynamodb
+package jp.pigumer.cloudformation
 
 import akka.util.ByteString
 import com.amazonaws.services.cloudformation.{AmazonCloudFormationAsync, AmazonCloudFormationAsyncClientBuilder}

@@ -1,6 +1,7 @@
 package jp.pigumer.dynamodb
 
 import akka.util.ByteString
+import jp.pigumer.cloudformation.StackBase
 import org.specs2.mutable.Specification
 import org.specs2.specification.Scope
 

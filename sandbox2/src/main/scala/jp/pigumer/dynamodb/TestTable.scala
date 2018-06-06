@@ -18,6 +18,8 @@ case class Data(hashKey: String,
 
 object TestTable {
 
+  val hashKeyValue = "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC"
+
   def deleteTable(dynamoDB: DynamoDB) = {
     dynamoDB.getTable("TEST1").delete()
   }
@@ -76,13 +78,19 @@ object TestTable {
   def saveTestData(dynamoDB: DynamoDB) = Try {
     val table = dynamoDB.getTable("TEST1")
     for (_ <- 1 to 1000) {
-      table.putItem(Data("TEST", UUID.randomUUID().toString, "A").item)
+      table.putItem(Data(hashKeyValue,
+        UUID.randomUUID().toString,
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA").item)
     }
-    for (_ <- 1 to 2000) {
-      table.putItem(Data("TEST", UUID.randomUUID().toString, "C").item)
+    for (_ <- 1 to 40000) {
+      table.putItem(Data(hashKeyValue,
+        UUID.randomUUID().toString,
+        "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC").item)
     }
-    for (_ <- 1 to 3000) {
-      table.putItem(Data("TEST", UUID.randomUUID().toString, "B").item)
+    for (_ <- 1 to 10000) {
+      table.putItem(Data(hashKeyValue,
+        UUID.randomUUID().toString,
+        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB").item)
     }
   }.get
 }
