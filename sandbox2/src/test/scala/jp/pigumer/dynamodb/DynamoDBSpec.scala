@@ -4,8 +4,6 @@ import java.util.logging.Logger
 
 import com.amazonaws.client.builder.AwsClientBuilder
 import com.amazonaws.services.dynamodbv2.document.DynamoDB
-import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec
-import com.amazonaws.services.dynamodbv2.document.utils.ValueMap
 import com.amazonaws.services.dynamodbv2.model.{AttributeValue, QueryRequest}
 import com.amazonaws.services.dynamodbv2.{AmazonDynamoDB, AmazonDynamoDBClientBuilder}
 import org.specs2.mutable.Specification
@@ -61,6 +59,7 @@ class DynamoDBSpec extends Specification with BeforeAfterAll {
       val s = result.getItems().size
       logger.info(s"size: $s")
       s must_== 8457
+      // 6722 ?
     }
   }
 
