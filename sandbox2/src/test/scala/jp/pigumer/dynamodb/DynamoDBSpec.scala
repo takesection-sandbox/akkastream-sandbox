@@ -4,7 +4,7 @@ import java.util.logging.Logger
 
 import com.amazonaws.client.builder.AwsClientBuilder
 import com.amazonaws.services.dynamodbv2.document.DynamoDB
-import com.amazonaws.services.dynamodbv2.model.{AttributeValue, QueryRequest}
+import com.amazonaws.services.dynamodbv2.model.{AttributeValue, QueryRequest, QueryResult}
 import com.amazonaws.services.dynamodbv2.{AmazonDynamoDB, AmazonDynamoDBClientBuilder}
 import org.specs2.mutable.Specification
 import org.specs2.specification.BeforeAfterAll
@@ -22,6 +22,23 @@ class DynamoDBSpec extends Specification with BeforeAfterAll {
     .build()
   lazy val dynamoDB = new DynamoDB(client)
 
+  private def query(request: QueryRequest): Iterator[QueryResult] =
+    new Iterator[QueryResult] {
+      var result: Option[QueryResult] = None
+      override def hasNext: Boolean = result.fold(true)(
+        queryResult ⇒ null != queryResult.getLastEvaluatedKey
+      )
+      override def next(): QueryResult =
+      result match {
+        case Some(previous) ⇒
+          result = Some(client.query(request.withExclusiveStartKey(previous.getLastEvaluatedKey())))
+          result.get
+        case None ⇒
+          result = Some(client.query(request))
+          result.get
+      }
+    }
+
   "Test" should {
     "Count" in {
       logger.info("start")
@@ -35,12 +52,13 @@ class DynamoDBSpec extends Specification with BeforeAfterAll {
         .withExpressionAttributeValues(Map(":H" → new AttributeValue().withS(TestTable.hashKeyValue),
           ":R" → new AttributeValue().withS("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")).asJava)
 
-      val result = client.query(request)
+      val list = query(request).toList
+      logger.info(s"list size: ${list.length}")
+      val result = list(0)
       logger.info(s"completed: ${result.getCount}")
       result.getCount must_== 8457
 
-      val request2 = request.withExclusiveStartKey(result.getLastEvaluatedKey)
-      val result2 = client.query(request2)
+      val result2 = list(1)
       logger.info(s"completed2: ${result2.getCount}")
       result2.getCount must_== 1543
     }
@@ -55,8 +73,8 @@ class DynamoDBSpec extends Specification with BeforeAfterAll {
         "#R" → "RangeKey2").asJava)
         .withExpressionAttributeValues( Map(":H" → new AttributeValue().withS(TestTable.hashKeyValue),
           ":R" → new AttributeValue().withS("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")).asJava)
-      val result = client.query(queryRequest)
-      val s = result.getItems().size
+      val list = query(queryRequest).toList
+      val s = list(0).getItems().size
       logger.info(s"size: $s")
       s must_== 8457
       // 6722 ?
